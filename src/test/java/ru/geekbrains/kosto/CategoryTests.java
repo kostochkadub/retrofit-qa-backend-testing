@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErrorBody;
 import static ru.geekbrains.kosto.base.enums.CategoryType.DOESNOTEXIST;
@@ -44,7 +46,7 @@ public class CategoryTests {
         Response<Category> response = categoryService
                 .getCategory(DOESNOTEXIST.getId())
                 .execute();
-        assertThat(response.code()).isEqualTo(404);
+        assertThat(response.code()).isEqualTo(HTTP_NOT_FOUND);
 
         assertThat(getErrorBody(response).getMessage()).isEqualTo("Unable to find category with id: " + DOESNOTEXIST.getId());
     }
@@ -54,7 +56,7 @@ public class CategoryTests {
         Response<Category> response = categoryService
                 .getCategory(DOESNOTEXIST.getTitle())
                 .execute();
-        assertThat(response.code()).isEqualTo(400);
+        assertThat(response.code()).isEqualTo(HTTP_BAD_REQUEST);
 
 
         if (response != null && !response.isSuccessful() && response.errorBody() != null) {
