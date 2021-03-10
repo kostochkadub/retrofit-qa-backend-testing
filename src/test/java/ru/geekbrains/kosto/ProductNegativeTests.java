@@ -11,12 +11,12 @@ import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.geekbrains.kosto.base.enums.ProductId.PRODUCT_ID_DOES_NOT_EXIST;
 import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErrorBody;
-import static ru.geekbrains.kosto.base.enums.CategoryType.DOESNOTEXIST;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
 public class ProductNegativeTests {
-    static Integer productId;
+    static Long productId;
     Faker faker = new Faker();
     static ProductService productService;
     Product product;
@@ -41,7 +41,7 @@ public class ProductNegativeTests {
     @Test
     void createNewFoodProductNegativeTest() {
         Response<Product> response =
-                productService.createProduct(product.withId(DOESNOTEXIST.getId()))
+                productService.createProduct(product.withId(PRODUCT_ID_DOES_NOT_EXIST.getId()))
                         .execute();
 
         assertThat(response.code()).isEqualTo(400);

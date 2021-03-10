@@ -16,7 +16,7 @@ import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
 public class ProductFoodDeleteTests extends BaseTests {
 
-    static Integer productId;
+    static Long productId;
     Faker faker = new Faker();
     static ProductService productService;
     Product product;

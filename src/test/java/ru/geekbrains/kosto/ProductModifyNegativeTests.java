@@ -17,11 +17,12 @@ import ru.geekbrains.kosto.util.RetrofitUtils;
 import java.lang.annotation.Annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.geekbrains.kosto.base.enums.CategoryType.DOESNOTEXIST;
+import static ru.geekbrains.kosto.base.enums.CategoryType.CATEGORY_ID_DOES_NOT_EXIST;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
+import static ru.geekbrains.kosto.base.enums.ProductId.PRODUCT_ID_DOES_NOT_EXIST;
 
 public class ProductModifyNegativeTests {
-    static Integer productId;
+    static Long productId;
     String expectTitle;
     Faker faker = new Faker();
     static ProductService productService;
@@ -53,7 +54,7 @@ public class ProductModifyNegativeTests {
         assertThat(response.code()).isEqualTo(201);
 
         productModify = new Product()
-                .withId(DOESNOTEXIST.getId())
+                .withId(PRODUCT_ID_DOES_NOT_EXIST.getId())
                 .withPrice(product.getPrice())
                 .withTitle(expectTitle)
                 .withCategoryTitle(FOOD.getTitle());
@@ -71,7 +72,7 @@ public class ProductModifyNegativeTests {
         ResponseBody body = response.errorBody();
         Converter<ResponseBody, BadRequestBody> converter = RetrofitUtils.getRetrofit().responseBodyConverter(BadRequestBody.class, new Annotation[0]);
         BadRequestBody badRequestBody = converter.convert(body);
-        assertThat(badRequestBody.getMessage()).isEqualTo("Product with id: " + DOESNOTEXIST.getId() + " doesn't exist");
+        assertThat(badRequestBody.getMessage()).isEqualTo("Product with id: " + CATEGORY_ID_DOES_NOT_EXIST.getId() + " doesn't exist");
     }
 
     @SneakyThrows

@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
 public class BaseTests {
 
     @SneakyThrows
-    boolean checkThatTheProductDoesNotExist(int productId, ProductService productService) {
+    boolean checkThatTheProductDoesNotExist(Long productId, ProductService productService) {
         Response<Product> response =
                 productService.getProductWithId(productId)
                         .execute();

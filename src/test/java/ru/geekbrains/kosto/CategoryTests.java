@@ -18,7 +18,7 @@ import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErrorBody;
-import static ru.geekbrains.kosto.base.enums.CategoryType.DOESNOTEXIST;
+import static ru.geekbrains.kosto.base.enums.CategoryType.CATEGORY_ID_DOES_NOT_EXIST;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
 public class CategoryTests {
@@ -37,24 +37,24 @@ public class CategoryTests {
                 .getCategory(FOOD.getId())
                 .execute();
         assertThat(response.isSuccessful()).isTrue();
-        assertThat(response.body().getId()).as("Id is not equal to 1!").isEqualTo(1);
+        assertThat(response.body().getId()).as("Id is equal to 1!").isEqualTo(1);
         assertThat(response.body().getTitle()).isEqualTo(FOOD.getTitle());
     }
 
     @Test
     void getFoodCategoryNegative404Test() throws IOException {
         Response<Category> response = categoryService
-                .getCategory(DOESNOTEXIST.getId())
+                .getCategory(CATEGORY_ID_DOES_NOT_EXIST.getId())
                 .execute();
         assertThat(response.code()).isEqualTo(HTTP_NOT_FOUND);
 
-        assertThat(getErrorBody(response).getMessage()).isEqualTo("Unable to find category with id: " + DOESNOTEXIST.getId());
+        assertThat(getErrorBody(response).getMessage()).isEqualTo("Unable to find category with id: " + CATEGORY_ID_DOES_NOT_EXIST.getId());
     }
 
     @Test
     void getFoodCategoryNegative400Test() throws IOException {
         Response<Category> response = categoryService
-                .getCategory(DOESNOTEXIST.getTitle())
+                .getCategory(CATEGORY_ID_DOES_NOT_EXIST.getTitle())
                 .execute();
         assertThat(response.code()).isEqualTo(HTTP_BAD_REQUEST);
 

@@ -10,13 +10,14 @@ import org.junit.jupiter.api.Test;
 import retrofit2.Response;
 import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.service.ProductService;
+import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
 public class ProductModifyTests {
-    static Integer productId;
+    static Long productId;
     String expectTitle;
     Integer expectPrice;
     Faker faker = new Faker();
@@ -71,7 +72,7 @@ public class ProductModifyTests {
     }
 
     @SneakyThrows
-    boolean checkModifyProduct(int productId) {
+    boolean checkModifyProduct(Long productId) {
         Response<Product> response =
                 productService.getProductWithId(productId)
                         .execute();
@@ -86,10 +87,6 @@ public class ProductModifyTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        Response<ResponseBody> response =
-                productService.deleteProduct(productId)
-                        .execute();
-
-        assertThat(response.isSuccessful()).isTrue();
+        DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
     }
 }
