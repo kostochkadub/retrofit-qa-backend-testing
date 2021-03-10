@@ -1,4 +1,4 @@
-package ru.geekbrains.kosto;
+package ru.geekbrains.kosto.common;
 
 import com.github.javafaker.Faker;
 import lombok.SneakyThrows;

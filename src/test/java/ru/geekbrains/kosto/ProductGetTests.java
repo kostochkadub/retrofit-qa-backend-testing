@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import retrofit2.Converter;
 import retrofit2.Response;
+import ru.geekbrains.kosto.common.PostProduct;
 import ru.geekbrains.kosto.dto.BadRequestBody;
 import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.service.ProductService;

@@ -11,7 +11,7 @@ import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.geekbrains.kosto.ConverterResponseBodyToErrorBody.getErrorBody;
+import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErrorBody;
 import static ru.geekbrains.kosto.base.enums.CategoryType.DOESNOTEXIST;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 

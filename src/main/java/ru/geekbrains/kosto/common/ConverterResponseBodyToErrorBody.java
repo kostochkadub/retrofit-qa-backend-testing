@@ -1,4 +1,4 @@
-package ru.geekbrains.kosto;
+package ru.geekbrains.kosto.common;
 
 import lombok.SneakyThrows;
 import okhttp3.ResponseBody;
