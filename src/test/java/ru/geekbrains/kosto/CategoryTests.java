@@ -7,7 +7,9 @@ import retrofit2.Converter;
 import retrofit2.Response;
 import ru.geekbrains.kosto.dto.BadRequestBody;
 import ru.geekbrains.kosto.dto.Category;
+import ru.geekbrains.kosto.java4.lesson6.db.dao.CategoriesMapper;
 import ru.geekbrains.kosto.service.CategoryService;
+import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import java.io.IOException;
@@ -21,11 +23,14 @@ import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErr
 import static ru.geekbrains.kosto.base.enums.CategoryType.CATEGORY_ID_DOES_NOT_EXIST;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
-public class CategoryTests {
+public class CategoryTests extends BaseTests {
+
+    static CategoriesMapper categoriesMapper;
     static CategoryService categoryService;
 
     @BeforeAll
     static void beforeAll() throws MalformedURLException {
+        categoriesMapper = DbUtils.getCategoriesMapper();
         categoryService = RetrofitUtils
                 .getRetrofit()
                 .create(CategoryService.class);
@@ -36,9 +41,13 @@ public class CategoryTests {
         Response<Category> response = categoryService
                 .getCategory(FOOD.getId())
                 .execute();
+
+
         assertThat(response.isSuccessful()).isTrue();
-        assertThat(response.body().getId()).as("Id is equal to 1!").isEqualTo(1);
+        assertThat(response.body().getId()).as("Id is equal to 1!").isEqualTo(FOOD.getId());
         assertThat(response.body().getTitle()).isEqualTo(FOOD.getTitle());
+
+        assertThat(categoriesMapper.selectByPrimaryKey(FOOD.getId()).getTitle()).isEqualTo(FOOD.getTitle());
     }
 
     @Test

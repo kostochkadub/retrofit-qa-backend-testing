@@ -1,6 +1,5 @@
 package ru.geekbrains.kosto;
 
-import com.github.javafaker.Faker;
 import lombok.SneakyThrows;
 import okhttp3.ResponseBody;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import retrofit2.Response;
 import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.service.ProductService;
+import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -20,6 +20,7 @@ public class ProductFoodDeleteTests extends BaseTests {
     @BeforeAll
     @SneakyThrows
     static void beforeAll() {
+        productsMapper = DbUtils.getProductsMapper();
         productService = RetrofitUtils
                 .getRetrofit()
                 .create(ProductService.class);
@@ -51,6 +52,8 @@ public class ProductFoodDeleteTests extends BaseTests {
         assertThat(response.isSuccessful()).isTrue();
         assertThat(response.code()).isEqualTo(HTTP_OK);
         assertThat(checkThatTheProductDoesNotExist(productId, productService)).isTrue();
+
+        assertThat(productsMapper.selectByPrimaryKey(product.getId())).isNull();
     }
 
 }

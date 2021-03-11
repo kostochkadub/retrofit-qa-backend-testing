@@ -2,7 +2,6 @@ package ru.geekbrains.kosto;
 
 import com.github.javafaker.Faker;
 import lombok.SneakyThrows;
-import okhttp3.ResponseBody;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,6 +60,8 @@ public class ProductFoodTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        if (productId != null) {
+            DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        }
     }
 }

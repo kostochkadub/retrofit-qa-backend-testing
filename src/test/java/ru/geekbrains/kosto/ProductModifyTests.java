@@ -11,6 +11,7 @@ import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
@@ -44,7 +45,7 @@ public class ProductModifyTests extends BaseTests {
 
         productId = response.body().getId();
         assertThat(response.isSuccessful()).isTrue();
-        assertThat(response.code()).isEqualTo(201);
+        assertThat(response.code()).isEqualTo(HTTP_CREATED);
 
         expectTitle = product.getTitle() + " Modify";
         expectPrice = product.getPrice() + 1;
@@ -66,6 +67,10 @@ public class ProductModifyTests extends BaseTests {
         assertThat(response.isSuccessful()).isTrue();
         assertThat(response.code()).isEqualTo(HTTP_OK);
         assertThat(checkModifyProduct(productId)).isTrue();
+
+        assertThat(productsMapper.selectByPrimaryKey(productId).getCategory_id()).isEqualTo(FOOD.getId());
+        assertThat(productsMapper.selectByPrimaryKey(productId).getPrice()).isEqualTo(expectPrice);
+        assertThat(productsMapper.selectByPrimaryKey(productId).getTitle()).isEqualTo(expectTitle);
     }
 
     @SneakyThrows
@@ -84,6 +89,8 @@ public class ProductModifyTests extends BaseTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        productsMapper.deleteByPrimaryKey(productId);
+        if (productId != null) {
+            DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        }
     }
 }

@@ -16,11 +16,7 @@ import static ru.geekbrains.kosto.base.enums.ProductId.PRODUCT_ID_DOES_NOT_EXIST
 import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErrorBody;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
-public class ProductNegativeTests {
-
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
+public class ProductNegativeTests extends BaseTests{
 
     @BeforeAll
     @SneakyThrows

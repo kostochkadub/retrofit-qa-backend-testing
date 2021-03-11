@@ -1,6 +1,5 @@
 package ru.geekbrains.kosto;
 
-import com.github.javafaker.Faker;
 import lombok.SneakyThrows;
 import okhttp3.ResponseBody;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +16,8 @@ import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import java.lang.annotation.Annotation;
 
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.CATEGORY_ID_DOES_NOT_EXIST;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
@@ -50,7 +51,7 @@ public class ProductModifyNegativeTests extends BaseTests {
 
         productId = response.body().getId();
         assertThat(response.isSuccessful()).isTrue();
-        assertThat(response.code()).isEqualTo(201);
+        assertThat(response.code()).isEqualTo(HTTP_CREATED);
 
         productModify = new Product()
                 .withId(PRODUCT_ID_DOES_NOT_EXIST.getId())
@@ -66,7 +67,7 @@ public class ProductModifyNegativeTests extends BaseTests {
                 productService.putModifyProduct(productModify)
                         .execute();
 
-        assertThat(response.code()).isEqualTo(400);
+        assertThat(response.code()).isEqualTo(HTTP_BAD_REQUEST);
 
         ResponseBody body = response.errorBody();
         Converter<ResponseBody, BadRequestBody> converter = RetrofitUtils.getRetrofit().responseBodyConverter(BadRequestBody.class, new Annotation[0]);
@@ -77,7 +78,9 @@ public class ProductModifyNegativeTests extends BaseTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        productsMapper.deleteByPrimaryKey(productId);
+        if (productId != null) {
+            DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        }
     }
 
 

@@ -2,6 +2,7 @@ package ru.geekbrains.kosto;
 
 import lombok.SneakyThrows;
 import okhttp3.ResponseBody;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,6 +92,7 @@ public class ProductGetTests extends BaseTests {
 
         assertThat(productsMapper.selectByPrimaryKey(productId).getTitle()).isEqualTo(product.getTitle());
         assertThat(productsMapper.selectByPrimaryKey(productId).getCategory_id()).isEqualTo(FOOD.getId());
+        assertThat(categoriesMapper.selectByPrimaryKey(FOOD.getId()).getTitle()).isEqualTo(response.body().getCategoryTitle());
     }
 
     @SneakyThrows
@@ -107,6 +109,14 @@ public class ProductGetTests extends BaseTests {
         Converter<ResponseBody, BadRequestBody> converter = RetrofitUtils.getRetrofit().responseBodyConverter(BadRequestBody.class, new Annotation[0]);
         BadRequestBody badRequestBody = converter.convert(body);
         assertThat(badRequestBody.getMessage()).isEqualTo("Unable to find product with id: " + CATEGORY_ID_DOES_NOT_EXIST.getId());
+    }
+
+    @SneakyThrows
+    @AfterEach
+    void tearDown() {
+        if (productId != null) {
+            DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        }
     }
 
 }
