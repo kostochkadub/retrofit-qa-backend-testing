@@ -12,6 +12,7 @@ import retrofit2.Response;
 import ru.geekbrains.kosto.dto.BadRequestBody;
 import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.service.ProductService;
+import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
 import java.lang.annotation.Annotation;
@@ -21,17 +22,15 @@ import static ru.geekbrains.kosto.base.enums.CategoryType.CATEGORY_ID_DOES_NOT_E
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 import static ru.geekbrains.kosto.base.enums.ProductId.PRODUCT_ID_DOES_NOT_EXIST;
 
-public class ProductModifyNegativeTests {
-    static Long productId;
+public class ProductModifyNegativeTests extends BaseTests {
+
     String expectTitle;
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
     Product productModify;
 
     @BeforeAll
     @SneakyThrows
     static void beforeAll() {
+        productsMapper = DbUtils.getProductsMapper();
         productService = RetrofitUtils
                 .getRetrofit()
                 .create(ProductService.class);
@@ -78,11 +77,7 @@ public class ProductModifyNegativeTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        Response<ResponseBody> response =
-                productService.deleteProduct(productId)
-                        .execute();
-
-        assertThat(response.isSuccessful()).isTrue();
+        productsMapper.deleteByPrimaryKey(productId);
     }
 
 

@@ -9,22 +9,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import retrofit2.Response;
 import ru.geekbrains.kosto.dto.Product;
-import ru.geekbrains.kosto.java4.lesson6.db.dao.ProductsMapper;
 import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
-import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.ELECTRONICS;
 
-public class ProductElectronicTests {
-    static Long productId;
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
-    static ProductsMapper productsMapper;
+public class ProductElectronicTests extends BaseTests {
 
     @BeforeAll
     @SneakyThrows
@@ -62,6 +55,6 @@ public class ProductElectronicTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        productsMapper.deleteByPrimaryKey(productId);
     }
 }

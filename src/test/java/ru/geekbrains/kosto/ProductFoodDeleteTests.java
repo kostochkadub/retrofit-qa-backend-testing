@@ -11,15 +11,11 @@ import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
 public class ProductFoodDeleteTests extends BaseTests {
-
-    static Long productId;
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
 
     @BeforeAll
     @SneakyThrows
@@ -53,7 +49,7 @@ public class ProductFoodDeleteTests extends BaseTests {
                         .execute();
 
         assertThat(response.isSuccessful()).isTrue();
-        assertThat(response.code()).isEqualTo(200);
+        assertThat(response.code()).isEqualTo(HTTP_OK);
         assertThat(checkThatTheProductDoesNotExist(productId, productService)).isTrue();
     }
 

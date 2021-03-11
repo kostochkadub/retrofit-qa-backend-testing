@@ -1,6 +1,5 @@
 package ru.geekbrains.kosto;
 
-import com.github.javafaker.Faker;
 import lombok.SneakyThrows;
 import okhttp3.ResponseBody;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +11,6 @@ import ru.geekbrains.kosto.common.PostProduct;
 import ru.geekbrains.kosto.dto.BadRequestBody;
 import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.java4.lesson6.db.dao.CategoriesMapper;
-import ru.geekbrains.kosto.java4.lesson6.db.dao.ProductsMapper;
 import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
@@ -25,13 +23,8 @@ import static java.net.HttpURLConnection.HTTP_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.*;
 
-public class ProductGetTests {
+public class ProductGetTests extends BaseTests {
 
-    static Long productId;
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
-    static ProductsMapper productsMapper;
     static CategoriesMapper categoriesMapper;
 
     @BeforeAll

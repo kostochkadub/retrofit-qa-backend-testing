@@ -1,8 +1,6 @@
 package ru.geekbrains.kosto;
 
-import com.github.javafaker.Faker;
 import lombok.SneakyThrows;
-import okhttp3.ResponseBody;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,21 +11,20 @@ import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.DbUtils;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
-public class ProductModifyTests {
-    static Long productId;
+public class ProductModifyTests extends BaseTests {
+
     String expectTitle;
     Integer expectPrice;
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
     Product productModify;
 
     @BeforeAll
     @SneakyThrows
     static void beforeAll() {
+        productsMapper = DbUtils.getProductsMapper();
         productService = RetrofitUtils
                 .getRetrofit()
                 .create(ProductService.class);
@@ -67,7 +64,7 @@ public class ProductModifyTests {
                         .execute();
 
         assertThat(response.isSuccessful()).isTrue();
-        assertThat(response.code()).isEqualTo(200);
+        assertThat(response.code()).isEqualTo(HTTP_OK);
         assertThat(checkModifyProduct(productId)).isTrue();
     }
 
@@ -87,6 +84,6 @@ public class ProductModifyTests {
     @SneakyThrows
     @AfterEach
     void tearDown() {
-        DbUtils.getProductsMapper().deleteByPrimaryKey(productId);
+        productsMapper.deleteByPrimaryKey(productId);
     }
 }

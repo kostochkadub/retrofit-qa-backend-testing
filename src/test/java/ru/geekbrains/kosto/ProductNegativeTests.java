@@ -10,13 +10,14 @@ import ru.geekbrains.kosto.dto.Product;
 import ru.geekbrains.kosto.service.ProductService;
 import ru.geekbrains.kosto.util.RetrofitUtils;
 
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.ProductId.PRODUCT_ID_DOES_NOT_EXIST;
 import static ru.geekbrains.kosto.common.ConverterResponseBodyToErrorBody.getErrorBody;
 import static ru.geekbrains.kosto.base.enums.CategoryType.FOOD;
 
 public class ProductNegativeTests {
-    static Long productId;
+
     Faker faker = new Faker();
     static ProductService productService;
     Product product;
@@ -44,7 +45,7 @@ public class ProductNegativeTests {
                 productService.createProduct(product.withId(PRODUCT_ID_DOES_NOT_EXIST.getId()))
                         .execute();
 
-        assertThat(response.code()).isEqualTo(400);
+        assertThat(response.code()).isEqualTo(HTTP_BAD_REQUEST);
         assertThat(getErrorBody(response).getMessage()).isEqualTo("Id must be null for new entity");
     }
 

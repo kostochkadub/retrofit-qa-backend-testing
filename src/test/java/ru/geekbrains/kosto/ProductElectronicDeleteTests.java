@@ -18,11 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.geekbrains.kosto.base.enums.CategoryType.ELECTRONICS;
 
 public class ProductElectronicDeleteTests extends BaseTests {
-    static Long productId;
-    Faker faker = new Faker();
-    static ProductService productService;
-    Product product;
-    static ProductsMapper productsMapper;
+
 
     @BeforeAll
     @SneakyThrows
